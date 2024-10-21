@@ -1,0 +1,53 @@
+
+
+services:
+  nginx:
+    container_name: nginx
+    hostname: nginx-server
+    image: nginx
+    ports:
+      - 443:443
+      - 80:80
+    build: ./Nginx
+    volumes:
+      - ${LOGS}/nginx:/var/log/nginx/
+      - ${SSL}:/etc/letsencrypt:ro
+    restart: unless-stopped
+
+  nexcloud:
+    container_name: nextcloud
+    hostname: nextcloud-server
+    image: nextcloud
+    volumes:
+      - ${NEXTCLOUD}/nextcloud/apps:/var/www/html/apps
+      - ${NEXTCLOUD}/nextcloud/config:/var/www/html/config
+      - ${NEXTCLOUD}/nextcloud/custom_apps:/var/www/html/custom_apps
+      - ${NEXTCLOUD}/nextcloud/data:/var/www/html/data
+      - ${NEXTCLOUD}/nextcloud/themes:/var/www/html/themes
+    environment:
+      - VIRTUAL_HOST=storage.my_personal_cloud.com
+      - OVERWRITEPROTOCOL=https
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_HOST=mariadb-server:3306
+      - TRUSTED_PROXIES=nginx-server
+      - PHP_MEMORY_LIMIT=2G
+    build: ./Nextcloud
+    restart: unless-stopped
+
+  mariadb:
+    container_name: mariadb
+    hostname: mariadb-server
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+    volumes:
+      - ${NEXTCLOUD}/mariadb:/var/lib/mysql
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+
