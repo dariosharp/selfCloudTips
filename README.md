@@ -24,17 +24,18 @@ I’m passionate about self-hosting and have a strong background in cybersecurit
 A home cloud can offer the privacy and customization that no other online solutions can provide. After a long journey, I decided to use a single-board computer with two 4TB HDDs configured in a mirrored setup. The cloud software is based on Nextcloud, and NAS capabilities are managed using the ZFS filesystem. Nextcloud is privacy-oriented, and ZFS is one of the most reliable filesystems available. Additionally, using Ansible increases the reliability of the setup.
 <br>
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/cb3f97ec-f006-44e5-897d-2acc8aada9a1" alt="hardware" width="450" height="430">
+  <img src="https://github.com/user-attachments/assets/eba26f5f-fa75-44ba-8f1e-6b22ea394de5" alt="hardware" width="450" height="430">
 <p><b>The hardware</b></p>
 </div>
 <br>
 <div align="center">
-<img src="https://github.com/user-attachments/assets/87a44740-90fc-4202-872f-5123173a6182" alt="software" width="900" height="450">
+<img src="https://github.com/user-attachments/assets/c3577dba-a823-40bc-9805-79d246b62d02" alt="software" width="900" height="450">
 <p><b>The web application</b></p>
 </div>
 <br>
+
 <div align="center">
-<img src="https://github.com/user-attachments/assets/c042980c-d090-4b56-bdb7-4a272bc7f08d" alt="moblie app" width="200" height="400">
+<img src="https://github.com/user-attachments/assets/b0b37b42-2012-425b-a19c-8ad852eb473a" alt="moblie app" width="200" height="400">
 <p><b>The Mobile Application</b></p>
 </div>
 
