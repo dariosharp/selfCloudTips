@@ -24,7 +24,7 @@ My solution was the **ZimaBlade 7700 NAS Kit**, which incluses:
   - The power adapter
   - Mini Display port to HDMI
 
-<img src="https://github.com/user-attachments/assets/444716aa-8e6d-4b66-b7b2-b73ec9077c2a" alt="Zimablade 7700 Nas Kit" width="450" height="400">
+<img src="https://github.com/user-attachments/assets/e5f6ef9b-a537-4333-a726-30cea64b48d8" alt="Zimablade 7700 Nas Kit" width="450" height="400">
 
 Costs: ~200€ (including Tax and spedition)
 
@@ -42,7 +42,7 @@ I decided to use RAID 1 because is easier and faster to replace a failure disk.
 ### RAID 1
 RAID 1, or mirroring, is a RAID configuration that provides a high level of data redundancy. It works by creating an identical copy of all data on two or more disks. This means that if one disk fails, the data can be recovered from the other disk(s) without any loss.
 
-<img src="https://github.com/user-attachments/assets/48c12526-186e-46c0-979b-514f06ede598" alt="RAID1" width="450" height="300">
+<img src="https://github.com/user-attachments/assets/6e10d7d1-9f65-4044-85e3-ba0af6ef6ed6" alt="RAID1" width="300" height="300">
 
 PROs:
 - High reliability: Data redundancy provides strong protection against data loss in case of a disk failure.
@@ -60,7 +60,8 @@ Cons:
 ### RAID 5
 RAID 5 is a popular storage configuration that provides a good balance between performance, redundancy, and cost-effectiveness. However, it is important to understand its strengths and weaknesses before implementing it.
 
-<img src="https://github.com/user-attachments/assets/7cbbda0a-4561-45d9-a851-91b6093957ed" alt="RAID5" width="450" height="300">
+
+<img src="https://github.com/user-attachments/assets/07d05b1e-3b3f-452f-b14a-61e276e49efd" alt="RAID5" width="450" height="300">
 
 Pros of RAID 5:
 - Data redundancy: Protects against the failure of a single drive.
