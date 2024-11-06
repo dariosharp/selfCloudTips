@@ -18,18 +18,34 @@ There are multiple applications for cloud interfacing. Most of them are very new
 Nextcloud is very stable and has a visually appealing interface. The "Memories" application is very nice and offers a user experience similar to Google Photos. Personally, I prefer the UI of Nextcloud and Immich compared to PhotoPrism and Piwigo. However, Immich is still in its early stages; the mobile application does not automatically upload photos when running in the background, forcing users to constantly remember to open the app to start the photo upload process. In contrast, the Nextcloud app automatically uploads images in the background. Additionally, Nextcloud allows the upload of arbitrary files and can be used for collaborative environments.
 
 <div align="center">
-<img src="https://github.com/user-attachments/assets/c3577dba-a823-40bc-9805-79d246b62d02" alt="software" width="900" height="450">
+<img src="https://github.com/user-attachments/assets/c3577dba-a823-40bc-9805-79d246b62d02" alt="software" width="800" height="450">
 <p><b>The web application</b></p>
-</div>
-<br>
-<div align="center">
-<img src="https://github.com/user-attachments/assets/b0b37b42-2012-425b-a19c-8ad852eb473a" alt="moblie app" width="200" height="400">
-<p><b>The Mobile Application</b></p>
 </div>
 
 # NextCloud configuration
-There are multiple ways to install and use NextCloud, my solution is based on Docker. Docke is very powerfull tool that allows me to segragate in multiple safaty containers the various applications. Moreover, each container has the minimum packets to allow the application to run. This implementation is very powerfull as it is light and safe. Here you can find the docker file configuration: [NextCloud Docker Configuration](https://github.com/dariosharp/self-hosted-cloud/tree/main/cloud-configuration/nextcloud-dockers)
+There are multiple ways to install and use NextCloud, my solution is based on Docker. Docke is very powerfull tool that allows me to segragate in multiple safaty containers the various applications. Moreover, each container has the minimum packets to allow the application to run, creating a very powerfull, light and safe environment. Here you can find the nextcloud documentatation to run the application in docker: [NextCloud Documentation](https://docs.nextcloud.com/server/latest/admin_manual/office/example-docker.html). 
+
+## Docker containers
 My configuration is composed by three different containers, the NextCloud application, the database and Nginx.
-- NextCloud container, as the name suggest, contains the NextCloud application.
-- The database container, as the name suggest, contains the mariadb database, used by NextCloud to handle all the information.
-- Nginx, instead the reverse proxy. Nginx is very powerfull and light reverse proxy, which allows to handle HTTPS, HTTP2 or 3 and subdomains. It is also able to log all the HTTP requests and combined with fail2ban can increase the security of the cloud.  
+1. NextCloud container, as the name suggest, contains the NextCloud application.
+2. The database container, as the name suggest, contains the mariadb database, used by NextCloud to handle all the information.
+3. Nginx, instead the reverse proxy. Nginx is very powerfull and light reverse proxy, which allows to handle HTTPS, HTTP2 or 3 and subdomains. It is also able to log all the HTTP requests and combined with fail2ban can increase the security of the cloud.
+
+Here you can find the nextcloud configuration [NextCloud Docker Configuration](https://github.com/dariosharp/selfCloudTips/tree/main/cloud-configuration/nextcloud-dockers). 
+
+### NextCloud container
+The NextCloud container aimd to handle the NextCloud application and configuration. This include where to store the data, handling the resourses, configure the communication with the databese and Nginx.
+In order to let the RAID works properly and save the data in case of HD failure is required to set the data path in the correct location. By using the tag `volumes` in docker configuration file it is possible to share directories between the host and the containers. The sensitive data are stored in the folders under the path `/var/www/html/`, below is reported the configration example. 
+```
+volumes:
+- ${NEXTCLOUD}/nextcloud/apps:/var/www/html/apps
+- ${NEXTCLOUD}/nextcloud/config:/var/www/html/config
+- ${NEXTCLOUD}/nextcloud/custom_apps:/var/www/html/custom_apps
+- ${NEXTCLOUD}/nextcloud/data:/var/www/html/data
+- ${NEXTCLOUD}/nextcloud/themes:/var/www/html/themes
+```
+
+
+
+
+
