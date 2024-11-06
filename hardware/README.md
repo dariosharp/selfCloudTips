@@ -100,7 +100,7 @@ Once you've decided on the RAID level, it's time to choose the type of HDD to bu
 
 I bought tow Seagate IronWolf Pro, 4TB, Hard Disk SATA da 6GBit/s, HDD, CMR 3,5" 7.200 RPM, Cache da 128 MB
 
-<img src="https://github.com/user-attachments/assets/a2df0e7b-d8cb-4781-9425-a5c941cf5025" alt="HDD" width="300" height="400">
+<img src="https://github.com/user-attachments/assets/c0847995-76aa-48c1-b0b0-a96ef04cddcb" alt="HDD" width="300" height="400">
 
 Costs: ~200€ for both the HDDs, ~100€ each on amazon (including Tax and spedition)
 
