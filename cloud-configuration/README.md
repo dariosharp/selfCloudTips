@@ -45,6 +45,23 @@ volumes:
 - ${NEXTCLOUD}/nextcloud/themes:/var/www/html/themes
 ```
 
+It is very important also to properly set the environemtal variable:
+```
+    environment:
+      - VIRTUAL_HOST=storage.my_personal_cloud.com
+      - OVERWRITEPROTOCOL=https
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_HOST=mariadb-server:3306
+      - TRUSTED_PROXIES=nginx-server
+      - PHP_MEMORY_LIMIT=2G
+```
+
+### NGINX Container
+TODO
+
 
 
 
