@@ -43,7 +43,7 @@ GNU/Linux is able to manage multiple file-system types. The most famous and used
 **Summarizing**:
 ZFS can detect corrupted files, supports RAID without the use of additional tools, and provides Copy-on-Write (CoW) and Snapshots. This makes ZFS very reliable and powerful for managing RAID and data that needs to be stored for a long time.
 
-# How to configure ZTF 
+# How to configure ZFS 
 Supposing you have bought the Zimablade (or a similar device) and want to use ZFS as the filesystem to manage mirroring two HDDs, you will need to read multiple documents carefully to configure the ZFS filesystem as effectively as possible.
 In a nutshell, the essential concepts you need to know about ZFS are as follows:
 - A group of HDDs is called a **Pool**; essentially, a pool is a RAID setup.
