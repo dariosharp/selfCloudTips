@@ -45,7 +45,7 @@ volumes:
 - ${NEXTCLOUD}/nextcloud/themes:/var/www/html/themes
 ```
 
-It is very important also to properly set the environemtal variable:
+It is very important also to properly set the environemtal variable to communicate with mariadb and nginx:
 ```
     environment:
       - VIRTUAL_HOST=storage.my_personal_cloud.com
@@ -60,7 +60,15 @@ It is very important also to properly set the environemtal variable:
 ```
 
 ### NGINX Container
-TODO
+The Nginx container is perhaps the most critical one, as it handles nearly all security features, including encryption. My Nginx configuration can be found [here](https://github.com/dariosharp/selfCloudTips/blob/main/cloud-configuration/nextcloud-dockers/Nginx/config/nginx.conf); it supports HTTP/2, HTTPS, and includes the headers necessary for security.
+
+#### HTTPS & HTTP/2
+HTTPS is essential if you want to expose a web application, as it ensures both security and efficiency. By encrypting data transmitted between the client and server, HTTPS helps protect sensitive information from interception or tampering. It also enables features like HTTP/2, which can improve performance through faster data transfer and reduced load times. In today’s online environment, HTTPS is a standard requirement for maintaining user trust and meeting security best practices.
+
+To properly create the certificate, I used **Let's Encrypt**, which is free and integrates easily with Nginx. Let's Encrypt provides detailed documentation [here](https://letsencrypt.org/), making it simple to understand and set up.
+
+I also used **Certbot for Nginx**, which automates the creation and renewal of certificates, ensuring they stay up-to-date with minimal effort. You can find Certbot instructions [here](https://certbot.eff.org/instructions?ws=nginx&os=pip).
+
 
 
 
