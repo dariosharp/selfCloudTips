@@ -68,7 +68,7 @@ In the link above, all the information needed to configure ZFS properly is provi
   `sudo zpool create -o ashift=11 -m /mnt/cloud cloud mirror sda sdb`
   
 This configuration is for the IronWolf Pro NAS hard drives (described in the hardware folder) that I purchased and set up in a mirrored RAID 1 configuration
-- *1_create_dataset.sh*: Used to create and encrypt a new dataset.
+- *1_create_dataset.sh*: Used to create and encrypt a new dataset. The script create the key to encrypt the dataset, it is strongly suggested to save a copy somewhere outside the board. 
 - *2_configure_dataset.sh*: Used to compress files.
   
 ### How I handle the scrubbing:
@@ -98,9 +98,21 @@ WantedBy=multi-user.target
 ```
 I suggest reviewing the default cron jobs. When I installed the ZFS tools, the cron jobs were automatically updated to include tasks such as scrubbing, trimming, and snapshotting. I have removed all of them.
 
-### How I handle the scrubbing:
+### How I handle the snaphotting:
+Snapshots in ZFS are used to restore a previous file system state and to export data. Snapshots can be added and removed without any issues. I take snapshots every month to maintain a partial history in case of failure. Moreover, to increase the reliability of the data, I back up the snapshots to the cloud.
 
+To automate monthly snapshots, I created a script in `/etc/cron.monthly`:
 
+```
+#!/bin/sh
+
+which zfs-auto-snapshot > /dev/null || exit 0
+
+exec zfs-auto-snapshot --quiet --syslog --label=monthly --keep=12 //
+```
+With the command `zfs list -t snapshot`, you can list the snapshots that have been created.
+
+In order to encrise the reliablity of the data, it is important to backup the snapshot, this save you in case of failure of both the disks.
 
 
 
