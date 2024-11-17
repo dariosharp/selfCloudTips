@@ -98,7 +98,7 @@ WantedBy=multi-user.target
 ```
 I suggest reviewing the default cron jobs. When I installed the ZFS tools, the cron jobs were automatically updated to include tasks such as scrubbing, trimming, and snapshotting. I have removed all of them.
 
-### How I handle the snaphotting:
+### How I handle the snapshotting:
 Snapshots in ZFS are used to restore a previous file system state and to export data. Snapshots can be added and removed without any issues. I take snapshots every month to maintain a partial history in case of failure. Moreover, to increase the reliability of the data, I back up the snapshots to the cloud.
 
 To automate monthly snapshots, I created a script in `/etc/cron.monthly`:
@@ -112,8 +112,7 @@ exec zfs-auto-snapshot --quiet --syslog --label=monthly --keep=12 //
 ```
 With the command `zfs list -t snapshot`, you can list the snapshots that have been created.
 
-In order to encrise the reliablity of the data, it is important to backup the snapshot, this save you in case of failure of both the disks.
-
+In order to increase the reliability of the data, it is important to back up the snapshots. This will protect you in case of failure of both disks.
 
 
 
