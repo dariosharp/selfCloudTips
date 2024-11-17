@@ -38,7 +38,7 @@ GNU/Linux is able to manage multiple file-system types. The most famous and used
 - There are multiple other comparison features that should be noted, but the ones listed above, in my opinion, are the most important.
 - Checksum is used to detect if data or metadata is corrupted. Filesystems that do not support this feature are unable to detect if a file has been corrupted.
 - Copy-o-Write is a feature that prevents data from being overwritten. It is useful in case of a failure during writing. 
-- Logical volume manager means that the filesystem is able to manage RAID setups..
+- Logical volume manager means that the filesystem is able to manage RAID setups.
 
 **Summarizing**:
 ZFS can detect corrupted files, supports RAID without the use of additional tools, and provides Copy-on-Write (CoW) and Snapshots. This makes ZFS very reliable and powerful for managing RAID and data that needs to be stored for a long time.
@@ -59,5 +59,45 @@ In the link above, all the information needed to configure ZFS properly is provi
 - Enable compression during the pool creation; this will increase speed and extend HDD life.
 - Encryption is not necessary for this project, as Nextcloud can manage encryption.
 - Properly configure the dimensions of the HDD during pool creation; this will increase speed and extend HDD life.
+
+## My configuration
+[here](https://github.com/dariosharp/selfCloudTips/tree/main/file-system/scripts) are present a list of script to configure, replace, monitoring and optimizing the ZFS and HD configuration. 
+### How I have create the mirroring:
+- *0_create_mirroring.sh*: used to create the mirroring between the two HD.
+  
+  `sudo zpool create -o ashift=11 -m /mnt/cloud cloud mirror sda sdb`
+  
+  This configuration is for the HD ironwolf pro nas (described in hardware folder) that I bought, and set the two hard disk in mirroring (RAID 1)
+- *1_create_dataset.sh*: used to create and encypt a new dataset.
+- *2_configure_dataset.sh*: used to compress the files
+### How I handle the scrubbing:
+I have create two script useful for scrubbig:
+- *scrub.sh*: This file is used to run the scrubs
+- *check_status.sh*: scrupt used to monitoring the status of the scrbbing and the HD
+- *bot_scrub_notification.sh*: This file is used to send me a notification on telegram for monitoring the scrubs. It is very usefull, I do scrubs once per mounth and once the scrubs ends, a notification is sent do me in order to updateme on the status of the HD. This include any detected errors.
+
+In oder to do periodically the scrubs I have create a systemctl service called `zfs-scrub@cloud.timer` as described [here](https://wiki.archlinux.org/title/ZFS#Advanced_format_disks) in section 6.2. The in odert to execute the notification script I have sliced edited the wiki script like this:
+```
+[Unit]
+Description=zpool scrub on %i
+
+[Service]
+Nice=19
+IOSchedulingClass=idle
+KillSignal=SIGINT
+ExecStart=/usr/sbin/zpool scrub %i
+ExecStop=/opt/zfs/bot_scrub_notification.sh 
+
+[Install]
+WantedBy=multi-user.target
+```
+
+
+
+
+
+
+
+
 
 
