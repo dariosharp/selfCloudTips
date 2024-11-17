@@ -61,22 +61,27 @@ In the link above, all the information needed to configure ZFS properly is provi
 - Properly configure the dimensions of the HDD during pool creation; this will increase speed and extend HDD life.
 
 ## My configuration
-[here](https://github.com/dariosharp/selfCloudTips/tree/main/file-system/scripts) are present a list of script to configure, replace, monitoring and optimizing the ZFS and HD configuration. 
+[here](https://github.com/dariosharp/selfCloudTips/tree/main/file-system/scripts) is a list of scripts for configuring, replacing, monitoring, and optimizing ZFS and hard drive configurations. 
 ### How I have create the mirroring:
-- *0_create_mirroring.sh*: used to create the mirroring between the two HD.
+- *0_create_mirroring.sh*: Used to create a mirror between two hard drives.
   
   `sudo zpool create -o ashift=11 -m /mnt/cloud cloud mirror sda sdb`
   
-  This configuration is for the HD ironwolf pro nas (described in hardware folder) that I bought, and set the two hard disk in mirroring (RAID 1)
-- *1_create_dataset.sh*: used to create and encypt a new dataset.
-- *2_configure_dataset.sh*: used to compress the files
+This configuration is for the IronWolf Pro NAS hard drives (described in the hardware folder) that I purchased and set up in a mirrored RAID 1 configuration
+- *1_create_dataset.sh*: Used to create and encrypt a new dataset.
+- *2_configure_dataset.sh*: Used to compress files.
+  
 ### How I handle the scrubbing:
-I have create two script useful for scrubbig:
-- *scrub.sh*: This file is used to run the scrubs
-- *check_status.sh*: scrupt used to monitoring the status of the scrbbing and the HD
-- *bot_scrub_notification.sh*: This file is used to send me a notification on telegram for monitoring the scrubs. It is very usefull, I do scrubs once per mounth and once the scrubs ends, a notification is sent do me in order to updateme on the status of the HD. This include any detected errors.
+I have created two scripts useful for scrubbing:
+- *scrub.sh*: Used to run the scrubbing process.  
+- *check_status.sh*: A script for monitoring the status of scrubbing and the hard drives.  
+- *bot_scrub_notification.sh*: Sends a Telegram notification to keep me updated on the scrubbing process.  
+  - This script is very useful, as I run scrubs once per month.  
+  - When the scrubbing ends, I receive a notification detailing the status of the hard drives, including any detected errors.
 
-In oder to do periodically the scrubs I have create a systemctl service called `zfs-scrub@cloud.timer` as described [here](https://wiki.archlinux.org/title/ZFS#Advanced_format_disks) in section 6.2. The in odert to execute the notification script I have sliced edited the wiki script like this:
+In order to perform periodic scrubs, I have created a `systemctl` service called `zfs-scrub@cloud.timer`, as described [here](https://wiki.archlinux.org/title/ZFS#Advanced_format_disks) in section 6.2.  
+
+To execute the notification script, I modified the script from the wiki as follows:
 ```
 [Unit]
 Description=zpool scrub on %i
@@ -91,6 +96,11 @@ ExecStop=/opt/zfs/bot_scrub_notification.sh
 [Install]
 WantedBy=multi-user.target
 ```
+I suggest reviewing the default cron jobs. When I installed the ZFS tools, the cron jobs were automatically updated to include tasks such as scrubbing, trimming, and snapshotting. I have removed all of them.
+
+### How I handle the scrubbing:
+
+
 
 
 
