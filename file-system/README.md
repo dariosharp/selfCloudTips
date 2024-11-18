@@ -3,11 +3,16 @@ Choosing the correct file system is essential for ensuring data reliability and 
 My solution involves adopting Open Zettabyte File System (ZFS). ZFS is designed to guarantee high data reliability by detecting data corruption and restoring it quickly and easily.
 
 # TOC
- - EXT4 vs XFS vs BtrFS vs ZFS
- - How to configure ZTF
+- File-system type comparison: EXT4 vs XFS vs BtrFS vs ZFS
+- How to Configure ZFS
+  - My Configuration
+    - How I Handle the Scrubbing
+    - How I Handle Snapshotting and Backups in Case of HDD Failure
+      - How to Back Up the Backup
+    - Managing HDD Energy Consumption
 
 
-# EXT4 vs XFS vs BtrFS vs ZFS
+# File-system type comparison: EXT4 vs XFS vs BtrFS vs ZFS
 GNU/Linux is able to manage multiple file-system types. The most famous and used are EXT4, XFS, BtrFS and Open ZFS.
 
 - **EXT4**, or Fourth Extended File System, is a widely-used file system in Linux environments, known for its reliability and performance. Key features of EXT4 include journal checksumming for improved data integrity, delayed allocation to boost performance, and extents, which improve the handling of large files and reduce fragmentation.
@@ -122,7 +127,7 @@ There are also projects that allow you to store data, such as encoding it into a
 
 My solution, however, involves a little hack using Google Drive (if Google hadn’t rejected me, I probably wouldn’t be sharing this hack). Essentially, Google Drive allows you to access and download your data for up to two years, even if you exceed your storage quota. To take advantage of this, I created a new Google account, waited until I received the free 200GB Google Drive trial, and uploaded the snapshots there. Once a year, I upload new snapshots to maintain the backup.
 
-## Managing HDD Energy Consumption:
+### Managing HDD Energy Consumption:
 The Zimablade with Linux allows interaction with the motherboard using the `hdparm` command, which manages the status of the HDD. This includes stopping the disk's rotation to conserve energy. A significant portion of the energy consumed by my cloud setup comes from the continuous spinning of the HDD. Since I don’t access the HDD all day or use my cloud daily, leaving the HDD spinning during idle periods wastes energy. To address this, I configured the HDD to enter sleep mode after a few minutes of inactivity. 
 
 I created a script called **sleep_hdd.sh**, which includes the necessary commands to automatically put both HDDs into sleep mode after 180 * 5 seconds (approximately 15 minutes) of inactivity. When a tool (e.g., Nextcloud) needs to access the sleeping HDD, the kernel automatically handles waking the disk and restarting its rotation.
