@@ -63,19 +63,19 @@ In the link above, all the information needed to configure ZFS properly is provi
 ## My configuration
 [here](https://github.com/dariosharp/selfCloudTips/tree/main/file-system/scripts) is a list of scripts for configuring, replacing, monitoring, and optimizing ZFS and hard drive configurations. 
 ### How I have create the mirroring:
-- *0_create_mirroring.sh*: Used to create a mirror between two hard drives.
+- **0_create_mirroring.sh**: Used to create a mirror between two hard drives.
   
   `sudo zpool create -o ashift=11 -m /mnt/cloud cloud mirror sda sdb`
   
 This configuration is for the IronWolf Pro NAS hard drives (described in the hardware folder) that I purchased and set up in a mirrored RAID 1 configuration
-- *1_create_dataset.sh*: Used to create and encrypt a new dataset. The script create the key to encrypt the dataset, it is strongly suggested to save a copy somewhere outside the board. 
-- *2_configure_dataset.sh*: Used to compress files.
+- **1_create_dataset.sh**: Used to create and encrypt a new dataset. The script create the key to encrypt the dataset, it is strongly suggested to save a copy somewhere outside the board. 
+- **2_configure_dataset.sh**: Used to compress files.
   
 ### How I handle the scrubbing:
 I have created two scripts useful for scrubbing:
-- *scrub.sh*: Used to run the scrubbing process.  
-- *check_status.sh*: A script for monitoring the status of scrubbing and the hard drives.  
-- *bot_scrub_notification.sh*: Sends a Telegram notification to keep me updated on the scrubbing process.  
+- **scrub.sh**: Used to run the scrubbing process.  
+- **check_status.sh**: A script for monitoring the status of scrubbing and the hard drives.  
+- **bot_scrub_notification.sh**: Sends a Telegram notification to keep me updated on the scrubbing process.  
   - This script is very useful, as I run scrubs once per month.  
   - When the scrubbing ends, I receive a notification detailing the status of the hard drives, including any detected errors.
 
@@ -122,9 +122,24 @@ There are also projects that allow you to store data, such as encoding it into a
 
 My solution, however, involves a little hack using Google Drive (if Google hadn’t rejected me, I probably wouldn’t be sharing this hack). Essentially, Google Drive allows you to access and download your data for up to two years, even if you exceed your storage quota. To take advantage of this, I created a new Google account, waited until I received the free 200GB Google Drive trial, and uploaded the snapshots there. Once a year, I upload new snapshots to maintain the backup.
 
+## Managing HDD Energy Consumption:
+The Zimablade with Linux allows interaction with the motherboard using the `hdparm` command, which manages the status of the HDD. This includes stopping the disk's rotation to conserve energy. A significant portion of the energy consumed by my cloud setup comes from the continuous spinning of the HDD. Since I don’t access the HDD all day or use my cloud daily, leaving the HDD spinning during idle periods wastes energy. To address this, I configured the HDD to enter sleep mode after a few minutes of inactivity. 
+
+I created a script called **sleep_hdd.sh**, which includes the necessary commands to automatically put both HDDs into sleep mode after 180 * 5 seconds (approximately 15 minutes) of inactivity. When a tool (e.g., Nextcloud) needs to access the sleeping HDD, the kernel automatically handles waking the disk and restarting its rotation.
 
 
+The primary drawback of this setup is a slight delay when accessing data for the first time after the HDD has gone to sleep. For example:  
+- When accessing a photo, you may need to wait 5–10 seconds for the HDD to spin up.  
 
+However, since I only access Nextcloud a couple of times per week, and photo uploads are automated, I hardly notice the delay. In my use case, the energy savings from stopping the disk's rotation outweigh the occasional wait time.
+
+This setup is an effective way to reduce energy consumption in my cloud system while maintaining reasonable performance. It balances sustainability and usability, aligning with my infrequent usage patterns.
+
+To properly configure the HDD sleep settings, it is necessary to run the `hdparm` command every time the device boots. To automate this process, I have set up a `crontab` job that executes the `hdparm` command at startup.
+```
+@reboot root /usr/sbin/hdparm -S 90 /dev/disk/by-id/id-hdd2
+@reboot root /usr/sbin/hdparm -S 90 /dev/disk/by-id/id-hdd1
+```
 
 
 
