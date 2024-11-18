@@ -98,8 +98,11 @@ WantedBy=multi-user.target
 ```
 I suggest reviewing the default cron jobs. When I installed the ZFS tools, the cron jobs were automatically updated to include tasks such as scrubbing, trimming, and snapshotting. I have removed all of them.
 
-### How I handle the snapshotting:
-Snapshots in ZFS are used to restore a previous file system state and to export data. Snapshots can be added and removed without any issues. I take snapshots every month to maintain a partial history in case of failure. Moreover, to increase the reliability of the data, I back up the snapshots to the cloud.
+### How I Handle Snapshotting and Backups in Case of HDD Failure:
+Snapshots in ZFS are used to restore a previous file system state and to export data. They can be added and removed without any issues. I take snapshots every month to maintain a partial history in case of failure.
+
+Additionally, to enhance data reliability, snapshots can be used to back up all the data to another device. I also back up the snapshots to the cloud to safeguard against the failure of both hard drives.
+
 
 To automate monthly snapshots, I created a script in `/etc/cron.monthly`:
 
@@ -112,7 +115,12 @@ exec zfs-auto-snapshot --quiet --syslog --label=monthly --keep=12 //
 ```
 With the command `zfs list -t snapshot`, you can list the snapshots that have been created.
 
-In order to increase the reliability of the data, it is important to back up the snapshots. This will protect you in case of failure of both disks.
+#### How to back up the back up:
+To increase the reliability of the data, it is essential to back up the snapshots. This ensures protection in case both disks fail. There are several cost-effective solutions for backing up snapshots. For instance, you could use `AWS Deep Archive`, which is very affordable, or purchase an additional hard drive to use as a backup and store it in a different location.
+
+There are also projects that allow you to store data, such as encoding it into a YouTube video, which can be done for free, but is to hard to handle in case of data restoring.  
+
+My solution, however, involves a little hack using Google Drive (if Google hadn’t rejected me, I probably wouldn’t be sharing this hack). Essentially, Google Drive allows you to access and download your data for up to two years, even if you exceed your storage quota. To take advantage of this, I created a new Google account, waited until I received the free 200GB Google Drive trial, and uploaded the snapshots there. Once a year, I upload new snapshots to maintain the backup.
 
 
 
