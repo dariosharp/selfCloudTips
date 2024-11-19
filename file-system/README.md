@@ -10,6 +10,8 @@ My solution involves adopting Open Zettabyte File System (ZFS). ZFS is designed 
     - How I Handle Snapshotting and Backups in Case of HDD Failure
       - How to Back Up the Backup
     - Managing HDD Energy Consumption
+    - Replacing a currupted HDD
+- Conclusion
 
 
 # File-system type comparison: EXT4 vs XFS vs BtrFS vs ZFS
@@ -77,7 +79,9 @@ This configuration is for the IronWolf Pro NAS hard drives (described in the har
 - **2_configure_dataset.sh**: Used to compress files.
   
 ### How I handle the scrubbing:
-I have created two scripts useful for scrubbing:
+A scrub is a process that checks the integrity of all data in a ZFS storage pool. Scrubbing scans through all the data in the pool to verify that it matches its checksums and, if any issues are found, attempts to repair them if possible. Scrubs should be performed periodically, depending on how much the HDD is used. I have not found a clear rationale behind the recommended number of scrubs per month, but according to the official ZFS documentation, for systems that do not extensively use the HDD, it is suggested to perform scrubs once per month.
+
+I have created two (plus one about notification) scripts useful for scrubbing:
 - **scrub.sh**: Used to run the scrubbing process.  
 - **check_status.sh**: A script for monitoring the status of scrubbing and the hard drives.  
 - **bot_scrub_notification.sh**: Sends a Telegram notification to keep me updated on the scrubbing process.  
@@ -146,7 +150,29 @@ To properly configure the HDD sleep settings, it is necessary to run the `hdparm
 @reboot root /usr/sbin/hdparm -S 90 /dev/disk/by-id/id-hdd1
 ```
 
+### Replacing a corrupted HDD:
+One day, this will happen: one of the HDDs will fail and need to be replaced with a new one. I have saved a script with the proper commands to copy the data from one HDD to another. Here's what will happen when an HDD fails:
 
+1. The monthly scrub will occur, and at the end of the routine, the script **bot_scrub_notification.sh** will be executed.
+2. I will receive a notification on Telegram with the error details.
+3. It's time to buy a new HDD on Amazon.
+4. Replace the failed HDD.
+5. Execute the script **REPLACE-HARD-DISK-DEAD.sh**.
+6. Wait several hours, as copying a large amount of data will take time.
+7. Done.
 
+The **scrub notification script** helps me avoid manually checking the cloud every month for the status, and the **replacement script** simplifies the process of replacing the HDD when a failure occurs.
+
+# Conclusion
+It is extremely important to choose and configure the right file system. As mentioned in the previous section, I'm able to handle failures, monitor the status, optimize space, and encrypt data. For me, it was very important to avoid accessing the cloud daily to check the status of the data and to automatically repair failures whenever possible. 
+
+In conclusion, I have achieved the following:
+
+- Automatically perform monthly repairs of disk errors.  
+- Automatically Receive periodic notifications on the status of the HDDs.  
+- Back up data to the cloud annually without spending money.  
+- Encrypt and compress data.  
+- Save energy when the device is not in use.  
+- Be prepared for disk failures.  
 
 
