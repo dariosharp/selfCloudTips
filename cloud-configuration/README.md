@@ -63,11 +63,16 @@ It is very important also to properly set the environemtal variable to communica
 The Nginx container is perhaps the most critical one, as it handles nearly all security features, including encryption. My Nginx configuration can be found [here](https://github.com/dariosharp/selfCloudTips/blob/main/cloud-configuration/nextcloud-dockers/Nginx/config/nginx.conf); it supports HTTP/2, HTTPS, and includes the headers necessary for security.
 
 #### HTTPS & HTTP/2
-HTTPS is essential if you want to expose a web application, as it ensures both security and efficiency. By encrypting data transmitted between the client and server, HTTPS helps protect sensitive information from interception or tampering. It also enables features like HTTP/2, which can improve performance through faster data transfer and reduced load times. In today’s online environment, HTTPS is a standard requirement for maintaining user trust and meeting security best practices.
+**HTTPS** is essential if you want to expose a web application, as it ensures both security and efficiency. By encrypting data transmitted between the client and server, HTTPS helps protect sensitive information from interception or tampering. It also enables features like HTTP/2, which can improve performance through faster data transfer and reduced load times. In today’s online environment, HTTPS is a standard requirement for maintaining user trust and meeting security best practices.
 
 To properly create the certificate, I used **Let's Encrypt**, which is free and integrates easily with Nginx. Let's Encrypt provides detailed documentation [here](https://letsencrypt.org/), making it simple to understand and set up.
 
 I also used **Certbot for Nginx**, which automates the creation and renewal of certificates, ensuring they stay up-to-date with minimal effort. You can find Certbot instructions [here](https://certbot.eff.org/instructions?ws=nginx&os=pip).
+ 
+**HTTP/2** uses HPACK, a header compression algorithm, which minimizes the overhead associated with HTTP headers, especially for repeated headers across requests. Generally HTTP/2 can be 2–3 times faster the HTTP/1.1. The combination of HTTPS and HTTP/2 protocols increase significally the security and the speed of the cloud.
+
+#### Logs
+Nginx TODO
 
 
 
