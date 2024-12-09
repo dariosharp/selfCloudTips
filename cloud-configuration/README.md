@@ -62,18 +62,31 @@ It is very important also to properly set the environemtal variable to communica
 ### NGINX Container
 The Nginx container is perhaps the most critical one, as it handles nearly all security features, including encryption. My Nginx configuration can be found [here](https://github.com/dariosharp/selfCloudTips/blob/main/cloud-configuration/nextcloud-dockers/Nginx/config/nginx.conf); it supports HTTP/2, HTTPS, and includes the headers necessary for security.
 
+```
+    ports:
+      - 443:443
+      - 80:80
+    build: ./Nginx
+    volumes:
+      - ${LOGS}/nginx:/var/log/nginx/
+      - ${SSL}:/etc/letsencrypt:ro
+    restart: unless-stopped
+```
+
 #### HTTPS & HTTP/2
 **HTTPS** is essential if you want to expose a web application, as it ensures both security and efficiency. By encrypting data transmitted between the client and server, HTTPS helps protect sensitive information from interception or tampering. It also enables features like HTTP/2, which can improve performance through faster data transfer and reduced load times. In today’s online environment, HTTPS is a standard requirement for maintaining user trust and meeting security best practices.
 
 To properly create the certificate, I used **Let's Encrypt**, which is free and integrates easily with Nginx. Let's Encrypt provides detailed documentation [here](https://letsencrypt.org/), making it simple to understand and set up.
 
 I also used **Certbot for Nginx**, which automates the creation and renewal of certificates, ensuring they stay up-to-date with minimal effort. You can find Certbot instructions [here](https://certbot.eff.org/instructions?ws=nginx&os=pip).
- 
-**HTTP/2** uses HPACK, a header compression algorithm, which minimizes the overhead associated with HTTP headers, especially for repeated headers across requests. Generally HTTP/2 can be 2–3 times faster the HTTP/1.1. The combination of HTTPS and HTTP/2 protocols increase significally the security and the speed of the cloud.
+
+Once the certificates have been created, they need to be shared with the Nginx container. Certbot typically creates the certificates under the path `/etc/letsencrypt`. Using Docker volumes, it is possible to grant the container access to the created certificates.
+
+**HTTP/2** uses HPACK, a header compression algorithm that minimizes the overhead associated with HTTP headers, particularly for repeated headers across requests. Generally, HTTP/2 can be 2–3 times faster than HTTP/1.1. The combination of HTTPS and HTTP/2 protocols significantly enhances both the security and speed of the cloud.
+
 
 #### Logs
-Nginx TODO
-
+Nginx can be used to monitor network activities and check the system's status. Logs can be integrated with Fail2ban to automatically ban malicious users and bots. Since Nginx periodically stores logs, I do not store them on the RAID HDD. Instead, I purchased an external 64GB USB drive to store and monitor the data.
 
 
 
