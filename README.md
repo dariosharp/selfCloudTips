@@ -7,7 +7,7 @@
 - [Cloud configuration](cloud-configuration/README.md)
 
 ## Introduction
-Creating a personal cloud is a long journey that requires a lot of time to research and determine which solution is best for you at the time of creation. I explored multiple technologies, both hardware and software, to build my homemade cloud device based on my requirements. I decided to share my journey to help those who want to explore cloud self-hosting. Essentially, this post is a guide for a younger version of myself who was looking for their own solution. If I had had access to a post like this, my path would have been much easier. Regardless, this journey has been very helpful in improving my skills and gaining an overview of a field that is not my own.
+Creating a personal cloud is a long journey that requires a lot of time to research and determine which solution is best for you at the time of creation. I explored multiple technologies, both hardware and software, to build my homemade cloud device based on my requirements. I decided to share my journey to help those who want to explore cloud self-hosting. Essentially, this post is a guide for a younger version of myself who was looking for their own solution. If I had had access to a post like this, my path would have been much easier. Regardless, this journey has been very helpful in improving my skills and gaining an overview of a field that is not my own. 
 
 ### Rationale
 What I want to create is a family cloud where we can store photos and data with high reliability and integrity for 4 or 5 people. The data must be accessible from anywhere with a good user experience. Both web applications and mobile applications for Android and iOS should be available.
